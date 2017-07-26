@@ -1,7 +1,7 @@
 AMQ Cluster Playbook
 =========
 
-Deploys a A JBoss AMQ 7 Broker cluster.
+Deploys JBoss AMQ 7 Broker cluster.
 
 Requirements
 ------------

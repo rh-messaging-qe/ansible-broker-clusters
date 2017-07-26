@@ -23,5 +23,3 @@
     - group_vars/amq_broker_defaults.yml
   roles:
     - amq-broker
-
--tasks
