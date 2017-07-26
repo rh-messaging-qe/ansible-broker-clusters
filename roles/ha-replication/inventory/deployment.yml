@@ -1,0 +1,46 @@
+# Copyright 2017 Red Hat, Inc. and/or its affiliates
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# # Used when no need for master/slave differentiation
+# [cluster:children]
+# master
+# slave
+#
+# [master]
+# master1 ansible_host=<your-ip-m1-here>
+# master2 ansible_host=<your-ip-m1-here>
+#
+# [slave]
+# slave1 ansible_host=<your-ip-s1-here>
+# slave2 ansible_host=<your-ip-s2-here>
+
+
+
+[cluster:children]
+master
+slave
+
+[master]
+#r71 ansible_host=10.34.37.153
+#r72 ansible_host=10.34.37.169
+#r73 ansible_host=10.34.37.170
+m1_local_rhel7x_1 ansible_host=192.168.122.183
+m2_local_rhel6x_1 ansible_host=192.168.122.39
+
+[slave]
+#r61 ansible_host=10.34.37.145
+#r62 ansible_host=10.34.37.141
+#r63 ansible_host=10.34.37.142
+s1_local_rhel6i_1 ansible_host=192.168.122.242
+s2_local_rhel6x_2 ansible_host=192.168.122.14
