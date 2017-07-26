@@ -11,11 +11,13 @@ Requirements are present on the requirements.yml file. To install them:
 
 ```ansible-galaxy install -f -r requirements.yml```
 
+Note: All roles in this repository depend on amq-broker role.
+
 Playbook details
 --------------
 TODO
 
-<!-- 
+<!--
 This project contains 3 playbooks:
 
 * provision-host.yml: to prepare a RHEL, CentOS or Fedora system for being a broker host.
