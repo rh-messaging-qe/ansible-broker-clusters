@@ -12,5 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- include: provision-hosts.yml
-- include: provision-broker.yml
+---
+# - name: Setups the basic OS server
+#   hosts: all
+#   roles:
+#     - basic-server
+
+
+- name: Provision a clustered messaging broker
+  hosts: broker
+  vars:
+    amq_broker_instance_queues:
+      - test.performance.queue
+      - test.verification.queue
+  vars_files:
+    - group_vars/amq_broker_defaults.yml
+  roles:
+    - amq-broker
