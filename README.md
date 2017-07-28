@@ -15,23 +15,16 @@ Note: All roles in this repository depend on amq-broker role.
 
 Playbook details
 --------------
-TODO
 
-<!--
-This project contains 3 playbooks:
+This project contains default clustering playbooks for JBoss AMQ 7 / Artemis.
+Playbooks are in *roles* directory:
 
-* provision-host.yml: to prepare a RHEL, CentOS or Fedora system for being a broker host.
-* provision-broker.yml: to install, configure and create clustered broker instances.
-* provision.yml: to install a whole system from scratch (both the host and the broker).
+* *cluster*: default basic settings for broadcast & discovery of brokers
+* *ha-replication*: reuses *cluster* role and sets replication on master/slave nodes
+* *ha-sharedstore*: TODO
 
 
 Usage
 --------------
 
-Install everything:
-```ansible-playbook provision.yml -v -u root -i ./inventory/development.yml```
-
-
-Install the broker only:
-```ansible-playbook provision-broker.yml -v -u root -i ./inventory/development.yml```
--->
+For details about usage please see README.md in given roles.

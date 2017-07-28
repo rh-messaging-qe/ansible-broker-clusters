@@ -15,10 +15,6 @@
 ---
 - name: Provision a clustered messaging broker
   hosts: broker
-  # vars:
-    # amq_broker_instance_queues:
-    #   - test.performance.queue
-    #   - test.verification.queue
   vars_files:
     - group_vars/amq_broker_defaults.yml
   roles:

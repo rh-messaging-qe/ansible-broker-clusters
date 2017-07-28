@@ -18,8 +18,8 @@ broker_secondary
 
 [broker_primary]
 master1 ansible_host=<your-ip-m1-here>
+master2 ansible_host=<your-ip-m2-here>
 
 [broker_secondary]
 slave1 ansible_host=<your-ip-s1-here>
 slave2 ansible_host=<your-ip-s2-here>
-
