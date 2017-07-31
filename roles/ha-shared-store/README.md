@@ -16,7 +16,7 @@ Variables
 |-------------------|---------------------|----------------------|
 |amq_broker_cluster_broadcast_group_name | my-broadcast-group | name of broadcasting group |
 |amq_broker_cluster_broadcast_group_address | 231.7.7.7 | broadcast IP |
-|amq_broker_cluster_broadcast_group_port | 9876 | broadcasting prot |
+|amq_broker_cluster_broadcast_group_port | 9876 | broadcasting port |
 |amq_broker_cluster_discovery_group_name | my-discovery-group | discovery group name |
 |amq_broker_cluster_name | my-cluster | cluster name |
 |amq_broker_nfs_server | - | NFS server hostname or IP, e.g. nfs-share-example.com |
