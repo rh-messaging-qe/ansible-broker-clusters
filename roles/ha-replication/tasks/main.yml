@@ -9,6 +9,10 @@
       configuration_ns: "{{ xml_configuration_ns }}"
       core_ns: "{{ xml_core_ns }}"
 
+- name: Define host type
+  set_fact:
+    host_type: "{{ hostvars[inventory_hostname].group_names | select('match','master|slave') | list | first }}"
+
 # Master only tasks
 - name: "Set group-name in {{ broker_xml }}"
   when: host_type is defined and host_type == "master"
@@ -25,7 +29,6 @@
     - "<group-name>fish</group-name>"
     - "<vote-on-replication-failure>true</vote-on-replication-failure>"
     - "<check-for-live-server>true</check-for-live-server>"
-
 
 # # Slave only tasks
 - name: Remove default master replication tag

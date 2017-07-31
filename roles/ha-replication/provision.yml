@@ -7,24 +7,4 @@
   vars_files:
     - group_vars/variables.yml
   roles:
-    - roles/cluster
-
-- name: Fine-tune cluster on master hosts
-  hosts: master
-  vars:
-    - amq_broker_start_server: false
-    - host_type: master
-  vars_files:
-    - group_vars/variables.yml
-  roles:
-    - roles/ha-replication
-
-- name: Fine-tune cluster on slave hosts
-  hosts: slave
-  vars:
-    - amq_broker_start_server: false
-    - host_type: slave
-  vars_files:
-    - group_vars/variables.yml
-  roles:
     - roles/ha-replication

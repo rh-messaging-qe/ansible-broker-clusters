@@ -26,3 +26,11 @@ amq_broker_cluster_balancing: STRICT
 amq_broker_instance_name: amq-{{ ansible_default_ipv4.address | regex_replace('\.', '-')}}
 amq_broker_cluster_replicated: false
 amq_broker_cluster_sharedstore: false
+
+amq_broker_cluster_broadcast_group_name: my-broadcast-group
+amq_broker_cluster_broadcast_group_address: 231.7.7.7
+amq_broker_cluster_broadcast_group_port: 9876
+amq_broker_cluster_netty_connector_port: 61617
+amq_broker_cluster_broadcast_period: 2000
+amq_broker_cluster_balancing: ON_DEMAND
+amq_broker_cluster_max_hops: 1
