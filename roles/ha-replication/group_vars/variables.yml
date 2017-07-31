@@ -13,13 +13,6 @@
 # limitations under the License.
 
 ---
-# amq_broker_download_url: "{{ lookup('env','AMQ_BROKER_DOWNLOAD_URL') }}"
-# Reproducing broker URL
-# amq_broker_download_url: http://ooo.englab.brq.redhat.com/packages/mrgm/jboss_amq/7.0.0/amq-broker-7.0.0.CR1-redhat-1-bin.zip
-
-# Verification broker URL
-#amq_broker_download_url: http://ooo.englab.brq.redhat.com/packages/mrgm/jboss_amq/7.0.1/amq-broker-7.0.1.redhat-1-bin.zip
-
 # Not visible from different roles
 amq_broker_user: jamq
 amq_broker_install_dest: /home/{{ amq_broker_user }}
@@ -37,7 +30,6 @@ broker_home_instance: "{{ amq_broker_install_dest }}/{{ amq_broker_instance_dir 
 broker_xml: "{{ broker_home_instance }}/etc/broker.xml"
 
 amq_broker_instance_name: amq-{{ ansible_default_ipv4.address | regex_replace('\.', '-')}}
-
 
 xml_configuration_ns: "urn:activemq"
 xml_core_ns: "urn:activemq:core"
