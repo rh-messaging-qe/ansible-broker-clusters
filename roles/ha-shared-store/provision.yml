@@ -1,0 +1,10 @@
+b# Provision 3 masters and 3 bound slave servers
+---
+- name: Provision all brokers for shared storage configuration messaging broker
+  hosts: cluster
+  vars:
+    - amq_broker_start_server: false
+  vars_files:
+    - group_vars/variables.yml
+  roles:
+    - roles/ha-shared-store

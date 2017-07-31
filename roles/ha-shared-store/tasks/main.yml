@@ -1,0 +1,118 @@
+---
+# Common tasks for all brokers
+
+- name: Install NFS Client
+  yum:
+    name: nfs-utils
+    state: present
+
+- name: Mount NFS shared dir
+  mount:
+      path: "{{ amq_broker_local_nfs_mount_path }}"
+      src: "{{ amq_broker_nfs_server }}:{{ amq_broker_remote_nfs_path }}"
+      fstype: nfs
+      opts: "{{ amq_broker_nfs_mount_options }}"
+      state: mounted
+
+- name: Create dir for shared-store subdirs
+  file:
+    path: "{{ amq_broker_local_shared_store_base_path }}"
+    state: directory
+    owner: "{{ amq_broker_user }}"
+    mode: 0777
+
+- name: Create subdir for every servers pair
+  file:
+      path: "{{ amq_broker_local_shared_store_base_path }}/{{ hostvars[inventory_hostname].group_names | select('match','pair*') | list | first }}"
+      state: directory
+      owner: "{{ amq_broker_user }}"
+      mode: 0777
+
+- name: "Set up shared paging path in {{ broker_xml }}"
+  xml:
+    file: "{{ broker_xml }}"
+    xpath: /configuration_ns:configuration/core_ns:core/core_ns:paging-directory
+    value: "{{ amq_broker_local_shared_store_base_path }}/{{ hostvars[inventory_hostname].group_names | select('match','pair*') | list | first }}/paging"
+    namespaces:
+      configuration_ns: "{{ xml_configuration_ns }}"
+      core_ns: "{{ xml_core_ns }}"
+
+- name: "Set up shared journal path in {{ broker_xml }}"
+  xml:
+    file: "{{ broker_xml }}"
+    xpath: /configuration_ns:configuration/core_ns:core/core_ns:journal-directory
+    value: "{{ amq_broker_local_shared_store_base_path }}/{{ hostvars[inventory_hostname].group_names | select('match','pair*') | list | first }}/journal"
+    namespaces:
+      configuration_ns: "{{ xml_configuration_ns }}"
+      core_ns: "{{ xml_core_ns }}"
+
+- name: "Set up shared bindings path in {{ broker_xml }}"
+  xml:
+    file: "{{ broker_xml }}"
+    xpath: /configuration_ns:configuration/core_ns:core/core_ns:bindings-directory
+    value: "{{ amq_broker_local_shared_store_base_path }}/{{ hostvars[inventory_hostname].group_names | select('match','pair*') | list | first }}/bindings"
+    namespaces:
+      configuration_ns: "{{ xml_configuration_ns }}"
+      core_ns: "{{ xml_core_ns }}"
+
+- name: "Set up shared large messages path in {{ broker_xml }}"
+  xml:
+    file: "{{ broker_xml }}"
+    xpath: /configuration_ns:configuration/core_ns:core/core_ns:large-messages-directory
+    value: "{{ amq_broker_local_shared_store_base_path }}/{{ hostvars[inventory_hostname].group_names | select('match','pair*') | list | first  }}/large-messages"
+    namespaces:
+      configuration_ns: "{{ xml_configuration_ns }}"
+      core_ns: "{{ xml_core_ns }}"
+
+- name: Define host type
+  set_fact:
+    host_type: "{{ hostvars[inventory_hostname].group_names | select('match','master|slave') | list | first }}"
+
+# Master only tasks
+- name: "Set up master failover configuration {{ broker_xml }}"
+  when: host_type is defined and host_type == "master"
+  xml:
+    file: "{{ broker_xml }}"
+    xpath: "/configuration_ns:configuration/core_ns:core/core_ns:ha-policy/core_ns:shared-store/core_ns:master/core_ns:failover-on-shutdown"
+    value: "true"
+    namespaces:
+      configuration_ns: "{{ xml_configuration_ns }}"
+      core_ns: "{{ xml_core_ns }}"
+
+# Slave only tasks
+- name: Remove default shared-store/master tag
+  when: host_type is defined and host_type == "slave"
+  xml:
+    file: "{{ broker_xml }}"
+    xpath: "/configuration_ns:configuration/core_ns:core/core_ns:ha-policy/core_ns:shared-store/core_ns:master"
+    ensure: absent
+    namespaces:
+      configuration_ns: "{{ xml_configuration_ns }}"
+      core_ns: "{{ xml_core_ns }}"
+
+- name: "Set up shared-store/slave configuration {{ broker_xml }}"
+  when: host_type is defined and host_type == "slave"
+  xml:
+    file: "{{ broker_xml }}"
+    xpath: "/configuration_ns:configuration/core_ns:core/core_ns:ha-policy/core_ns:shared-store"
+    add_children: "<slave/>"
+    input_type: xml
+    pretty_print: true
+    namespaces:
+      configuration_ns: "{{ xml_configuration_ns }}"
+      core_ns: "{{ xml_core_ns }}"
+
+- name: "Set up slave failover configuration {{ broker_xml }}"
+  when: host_type is defined and host_type == "slave"
+  xml:
+    file: "{{ broker_xml }}"
+    xpath: "/configuration_ns:configuration/core_ns:core/core_ns:ha-policy/core_ns:shared-store/core_ns:{{ host_type }}"
+    add_children: "{{ item }}"
+    input_type: xml
+    pretty_print: true
+    namespaces:
+      configuration_ns: "{{ xml_configuration_ns }}"
+      core_ns: "{{ xml_core_ns }}"
+  with_items:
+    - "<allow-failback>true</allow-failback>"
+    - "<failover-on-shutdown>true</failover-on-shutdown>"
