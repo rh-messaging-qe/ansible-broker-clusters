@@ -4,7 +4,7 @@
   xml:
     file: "{{ broker_xml }}"
     xpath: /configuration_ns:configuration/core_ns:core/core_ns:discovery-groups/core_ns:discovery-group/core_ns:refresh-timeout
-    value: 5000
+    value: "5000"
     namespaces:
       configuration_ns: "{{ xml_configuration_ns }}"
       core_ns: "{{ xml_core_ns }}"
