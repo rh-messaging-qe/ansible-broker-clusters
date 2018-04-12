@@ -13,6 +13,7 @@
 # limitations under the License.
 
 ---
+basic_server_skip_rhn_registration: true
 # Not visible from different roles
 amq_broker_user: jamq
 amq_broker_install_dest: /home/{{ amq_broker_user }}
@@ -23,6 +24,8 @@ amq_broker_broker_java_install: true
 amq_broker_instance_require_login: false
 amq_broker_instance_dir: ha-replication
 amq_broker_instance_journal_type: aio
+amq_broker_jolokia_allow_origin: "*"
+
 amq_broker_cluster_balancing: ON_DEMAND
 amq_broker_cluster_replicated: true
 

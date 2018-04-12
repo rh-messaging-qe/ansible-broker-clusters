@@ -75,3 +75,13 @@
     namespaces:
       configuration_ns: "{{ xml_configuration_ns }}"
       core_ns: "{{ xml_core_ns }}"
+
+- name: "Add redistribution-delay value in address settings"
+  xml:
+    file: "{{ broker_xml }}"
+    xpath: /configuration_ns:configuration/core_ns:core/core_ns:address-settings/core_ns:address-setting[@match="#"]/core_ns:redistribution-delay
+    value: "{{ amq_broker_cluster_redistribution_delay }}"
+    pretty_print: true
+    namespaces:
+      configuration_ns: "{{ xml_configuration_ns }}"
+      core_ns: "{{ xml_core_ns }}"
