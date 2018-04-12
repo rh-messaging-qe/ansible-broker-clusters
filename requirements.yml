@@ -26,7 +26,7 @@
 
 - src: git@github.com:msgqe/ansible-amq-broker.git
   scm: git
-  name: amq-broker
+  name: ansible-amq-broker
 
 - src: git@github.com:msgqe/ansible-basic-server.git
   scm: git
