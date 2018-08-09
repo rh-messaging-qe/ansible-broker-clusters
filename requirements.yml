@@ -12,23 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- src: git@github.com:msgqe/ansible-rhn-register.git
+- src: https://github.com/msgqe/ansible-rhn-register.git
   scm: git
   name: rhn-register
 
-- src: git@github.com:msgqe/ansible-rhn-subscribe.git
+- src: https://github.com/msgqe/ansible-rhn-subscribe.git
   scm: git
   name: rhn-subscribe
 
-- src: git@github.com:msgqe/ansible-epel.git
+- src: https://github.com/msgqe/ansible-epel.git
   scm: git
   name: epel
 
-- src: git@github.com:msgqe/ansible-amq-broker.git
+- src: https://github.com/msgqe/ansible-amq-broker.git
   scm: git
   name: ansible-amq-broker
 
-- src: git@github.com:msgqe/ansible-basic-server.git
+- src: https://github.com/msgqe/ansible-basic-server.git
   scm: git
   name: basic-server
 
