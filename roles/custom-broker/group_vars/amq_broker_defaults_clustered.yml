@@ -47,7 +47,8 @@ amq_broker_skip_configure: true
 amq_broker_write_amq_facts: true
 
 # Path to locally generated facts about amq broker [/etc/ansible/facts.d/]
-amq_broker_default_facts_file: /etc/ansible/facts.d/amq_broker.fact
+#amq_broker_default_facts_file: /etc/ansible/facts.d/amq_broker.fact
+amq_broker_default_facts_file: /tmp/facts/amq_broker_facts_{{ ansible_default_ipv4.address }}
 
 # Whether to start broker as a service
 amq_broker_start_server: false
