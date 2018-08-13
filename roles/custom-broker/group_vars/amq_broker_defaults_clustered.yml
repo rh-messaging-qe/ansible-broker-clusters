@@ -44,7 +44,7 @@ amq_broker_skip_configure: true
 
 # Whether to dump system facts to a file. To be used when integrated with
 # test automation tools that may need to inspect deployment details
-amq_broker_write_amq_facts: false
+amq_broker_write_amq_facts: true
 
 # Path to locally generated facts about amq broker [/etc/ansible/facts.d/]
 amq_broker_default_facts_file: /etc/ansible/facts.d/amq_broker.fact
@@ -145,7 +145,7 @@ amq_broker_instance_create_options: "{{ amq_broker_instance_create_force_args }}
 amq_broker_instance_jmx_port: 1099
 amq_broker_instance_create_queue_args: "{% if amq_broker_instance_queues is defined %} --queues {{ amq_broker_instance_queues | join(',') }} {% else %} '' {% endif %}"
 
-amq_broker_instance_clustered: false
+amq_broker_instance_clustered: true
 amq_broker_instance_clustered_args: "{{ amq_broker_instance_clustered | ternary('--clustered','--allow-anonymous') }}"
 
 amq_broker_instance_clustered_user_args: "{% if amq_broker_instance_clustered == true %} --cluster-user {{ amq_broker_cluster_username }} {% else %} '' {% endif %}"

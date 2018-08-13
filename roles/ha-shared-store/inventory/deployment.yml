@@ -31,27 +31,11 @@ master
 slave
 
 [master]
-master1
-master2
+mtoth-rhel7-1 ansible_host=10.8.250.249
+#mtoth-rhel7-2 ansible_host=10.8.242.171
+#mtoth-rhel7-3 ansible_host=10.8.250.204
 
 [slave]
-slave1
-slave2
-
-[pair1]
-master1
-slave1
-
-[pair2]
-master2
-slave2
-
-[pair3]
-
-[pairN]
-
-
-
-
-
-
+mtoth-rhel7-4 ansible_host=10.8.250.237
+mtoth-rhel7-5 ansible_host=10.8.246.28
+mtoth-rhel7-6 ansible_host=10.8.250.182

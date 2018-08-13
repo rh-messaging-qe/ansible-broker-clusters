@@ -1,4 +1,6 @@
-m1_local_rhel7x_1
-m2_local_rhel6x_1
-s1_local_rhel6i_1
-s2_local_rhel6x_2
+mt_rhel7.4_01
+mt_rhel7.4_02
+mt_rhel7.4_03
+mt_rhel7.4_04
+mt_rhel7.4_05
+mt_rhel7.4_06

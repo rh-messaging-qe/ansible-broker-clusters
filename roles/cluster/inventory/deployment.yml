@@ -17,9 +17,36 @@ broker_primary
 broker_secondary
 
 [broker_primary]
-master1 ansible_host=<your-ip-m1-here>
-master2 ansible_host=<your-ip-m2-here>
+#master1 ansible_host=<your-ip-m1-here>
+
+mt_rhel7.4_01  ansible_host=10.37.145.202
+mt_rhel7.4_02  ansible_host=10.37.145.203
+mt_rhel7.4_03  ansible_host=10.37.145.204
+
+#mt_rhel6.9_01 ansible_host=10.37.145.109
+#mt_rhel6.9_02 ansible_host=10.37.145.104
+#mt_rhel6.9_03 ansible_host=10.37.145.105
+
+#mt_rhel6.9_01i ansible_host=10.37.145.66
+#mt_rhel6.9_02i ansible_host=10.37.145.65
+# mt_rhel6.9_03i ansible_host=10.37.145.70
+
 
 [broker_secondary]
-slave1 ansible_host=<your-ip-s1-here>
-slave2 ansible_host=<your-ip-s2-here>
+#slave1 ansible_host=<your-ip-s1-here>
+#slave2 ansible_host=<your-ip-s2-here>
+mt_rhel7.4_04  ansible_host=10.37.145.205
+mt_rhel7.4_05  ansible_host=10.37.145.214
+mt_rhel7.4_06  ansible_host=10.37.145.223
+#
+# mt_rhel6.9_04 ansible_host=10.37.145.106
+# mt_rhel6.9_05 ansible_host=10.37.145.107
+# mt_rhel6.9_06 ansible_host=10.37.145.97
+#
+# mt_rhel6.9_04i ansible_host=10.37.145.69
+# mt_rhel6.9_05i ansible_host=10.37.145.68
+# mt_rhel6.9_06i ansible_host=10.37.145.90
+
+
+[locals]
+#local_rhel6x_1 ansible_host=192.168.122.39

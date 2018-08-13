@@ -32,14 +32,14 @@ amq_broker_jolokia_allow_origin: "*"
 
 amq_broker_cluster_replicated: false
 amq_broker_cluster_sharedstore: false
-amq_broker_cluster_broadcast_group_name: my-broadcast-group
-amq_broker_cluster_broadcast_group_address: 231.7.7.7
+amq_broker_cluster_broadcast_group_name: my-broadcast-group-ha
+amq_broker_cluster_broadcast_group_address: 231.7.7.6
 amq_broker_cluster_broadcast_group_port: 9876
 amq_broker_cluster_netty_connector_port: 61617
 amq_broker_cluster_broadcast_period: 2000
 amq_broker_cluster_balancing: ON_DEMAND
 amq_broker_cluster_max_hops: 1
-amq_broker_cluster_redistribution_delay: -1
+amq_broker_cluster_redistribution_delay: 0
 
 broker_home_instance: "{{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}"
 broker_xml: "{{ broker_home_instance }}/etc/broker.xml"

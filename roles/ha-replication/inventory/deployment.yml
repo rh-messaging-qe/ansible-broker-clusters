@@ -30,6 +30,24 @@ master
 slave
 
 [master]
+#m1_local_rhel7x_0 ansible_host=10.37.144.216
+#m2_local_rhel6x_2 ansible_host=192.168.122.14
+
+#mtoth-rhel74-1 ansible_host=10.8.245.109
+#mtoth-rhel74-2 ansible_host=10.8.246.96
+#mtoth-rhel74-3 ansible_host=10.8.244.64
+
+mt_rhel7.4_01  ansible_host=10.37.145.202
+mt_rhel7.4_02  ansible_host=10.37.145.203
+mt_rhel7.4_03  ansible_host=10.37.145.204
 
 [slave]
+#s1_local_rhel6x_1 ansible_host=192.168.122.39
+#s2_local_rhel6i_1 ansible_host=192.168.122.242
+#mtoth-rhel74-4 ansible_host=10.8.243.159
+#mtoth-rhel74-5 ansible_host=10.8.248.213
+#mtoth-rhel74-6 ansible_host=10.8.245.87
 
+mt_rhel7.4_04  ansible_host=10.37.145.205
+mt_rhel7.4_05  ansible_host=10.37.145.214
+mt_rhel7.4_06  ansible_host=10.37.145.223

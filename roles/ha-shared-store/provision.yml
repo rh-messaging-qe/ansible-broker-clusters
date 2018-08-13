@@ -1,4 +1,4 @@
-b# Provision 3 masters and 3 bound slave servers
+# Provision 3 masters and 3 bound slave servers
 ---
 - name: Provision all brokers for shared storage configuration messaging broker
   hosts: cluster
