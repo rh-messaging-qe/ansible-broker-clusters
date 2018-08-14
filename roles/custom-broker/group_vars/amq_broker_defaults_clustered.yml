@@ -52,7 +52,7 @@ amq_broker_default_facts_file: /tmp/facts/amq_broker_facts_{{ ansible_default_ip
 
 # Whether to start broker as a service
 amq_broker_start_server: false
-amq_broker_service_start: false
+amq_broker_service_start: true
 amq_broker_force_kill: false
 
 # The system user used to run the broker instance
