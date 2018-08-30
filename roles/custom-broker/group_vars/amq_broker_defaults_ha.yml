@@ -47,13 +47,13 @@ amq_broker_skip_configure: true
 amq_broker_write_amq_facts: true
 
 # Path to locally generated facts about amq broker [/etc/ansible/facts.d/]
-#amq_broker_default_facts_file: /etc/ansible/facts.d/amq_broker.fact
-amq_broker_default_facts_file: /tmp/facts/amq_broker_facts_{{ ansible_default_ipv4.address }}
-amq_broker_node_info_file: /tmp/facts/node_information_{{ ansible_default_ipv4.address }}
+amq_broker_default_facts_file: "{{ lookup('env','AMQ_BROKER_FACTS_DIR') | default('.') }}/amq_broker_facts_{{ ansible_default_ipv4.address }}"
+amq_broker_node_info_file: "{{ lookup('env','AMQ_BROKER_FACTS_DIR') | default('.') }}/node_information_{{ ansible_default_ipv4.address }}"
+
 
 # Whether to start broker as a service
 amq_broker_start_server: false
-amq_broker_service_start: false
+amq_broker_service_start: true
 amq_broker_force_kill: false
 
 # The system user used to run the broker instance
@@ -149,7 +149,7 @@ amq_broker_instance_create_options: "{{ amq_broker_instance_create_force_args }}
 amq_broker_instance_jmx_port: 1099
 amq_broker_instance_create_queue_args: "{% if amq_broker_instance_queues is defined %} --queues {{ amq_broker_instance_queues | join(',') }} {% else %} '' {% endif %}"
 
-amq_broker_instance_clustered: false
+amq_broker_instance_clustered: true
 amq_broker_instance_clustered_args: "{{ amq_broker_instance_clustered | ternary('--clustered','--allow-anonymous') }}"
 
 amq_broker_instance_clustered_user_args: "{% if amq_broker_instance_clustered == true %} --cluster-user {{ amq_broker_cluster_username }} {% else %} '' {% endif %}"
@@ -165,3 +165,12 @@ amq_broker_instance_clustered_sharedstore_args: "{% if amq_broker_cluster_shared
 
 amq_broker_instance_create_java_options: "-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port={{ amq_broker_instance_jmx_port }} -Djava.rmi.server.hostname={{ amq_broker_instance_rmi_host }} -Dcom.sun.management.jmxremote.rmi.port={{ amq_broker_instance_jmx_port }} -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 amq_broker_instance_create_command: ./artemis create {{ amq_broker_instance_create_options }} {{ amq_broker_instance_journal_type_args }} --java-options="{{ amq_broker_instance_create_java_options }}" --name={{ amq_broker_instance_name }} {{ amq_broker_instance_create_queue_args }} {{ amq_broker_instance_clustered_args }} {{ amq_broker_instance_clustered_user_args }} {{ amq_broker_instance_clustered_password_args }} {{ amq_broker_instance_clustered_host_args }} {{ amq_broker_instance_clustered_balancing_args }} {{ amq_broker_instance_clustered_maxhops_args }} {{ amq_broker_instance_clustered_replicated_args }} {{ amq_broker_instance_clustered_sharedstore_args }} {{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}
+
+amq_broker_instance_ha: false
+#ha_role
+# master check_for_live_server
+# slave  allow_failback
+amq_broker_instance_ha_group_name: msgqe-ci  # ideally job name
+amq_broker_instance_ha_vote_on_replication_failure: true
+amq_broker_instance_ha_master_check_for_live_server: true
+amq_broker_instance_ha_slave_allow_failback: true
