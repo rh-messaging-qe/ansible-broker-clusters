@@ -47,9 +47,9 @@ amq_broker_skip_configure: true
 amq_broker_write_amq_facts: true
 
 # Path to locally generated facts about amq broker [/etc/ansible/facts.d/]
-amq_broker_default_facts_file: "{{ lookup('env','AMQ_BROKER_FACTS_DIR') | default('.') }}/amq_broker_facts_{{ ansible_default_ipv4.address }}"
-amq_broker_node_info_file: "{{ lookup('env','AMQ_BROKER_FACTS_DIR') | default('.') }}/node_information_{{ ansible_default_ipv4.address }}"
-
+amq_broker_default_facts_file: "{{ lookup('env','AMQ_BROKER_FACTS_NODE_DIR') | default('/tmp/facts/', true) }}/amq_broker_facts_{{ ansible_default_ipv4.address }}"
+amq_broker_node_info_file: "{{ lookup('env','AMQ_BROKER_FACTS_NODE_DIR') | default('/tmp/facts', true) }}/node_information_{{ ansible_default_ipv4.address }}"
+amq_broker_local_facts_dir: "{{ lookup('env','AMQ_BROKER_FACTS_DIR') | default(inventory_dir, true) }}"
 # Whether to start broker as a service
 amq_broker_start_server: false
 amq_broker_service_start: false
@@ -156,3 +156,5 @@ amq_broker_instance_clustered_sharedstore_args: "{% if amq_broker_cluster_shared
 
 amq_broker_instance_create_java_options: "-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port={{ amq_broker_instance_jmx_port }} -Djava.rmi.server.hostname={{ amq_broker_instance_rmi_host }} -Dcom.sun.management.jmxremote.rmi.port={{ amq_broker_instance_jmx_port }} -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 amq_broker_instance_create_command: ./artemis create {{ amq_broker_instance_create_options }} {{ amq_broker_instance_journal_type_args }} --java-options="{{ amq_broker_instance_create_java_options }}" --name={{ amq_broker_instance_name }} {{ amq_broker_instance_create_queue_args }} {{ amq_broker_instance_clustered_args }} {{ amq_broker_instance_clustered_user_args }} {{ amq_broker_instance_clustered_password_args }} {{ amq_broker_instance_clustered_host_args }} {{ amq_broker_instance_clustered_balancing_args }} {{ amq_broker_instance_clustered_maxhops_args }} {{ amq_broker_instance_clustered_replicated_args }} {{ amq_broker_instance_clustered_sharedstore_args }} {{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}
+
+amq_broker_instance_ha: false
