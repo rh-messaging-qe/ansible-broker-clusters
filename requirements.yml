@@ -32,6 +32,3 @@
   scm: git
   name: basic-server
 
-- src: https://github.com/cmprescott/ansible-xml.git
-  scm: git
-  name: ansible-xml
