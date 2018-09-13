@@ -13,11 +13,11 @@ import re
 import argparse
 import pprint
 
-EXTERNAL_IP_MODE = None
+EXTERNAL_IP_MODE = "EXTERNAL_IP_MODE"
 AMQ_BROKER_SINGLE_NODE = None
-AMQ_BROKER_CLUSTER_NODES = None  # "10.0.0.1(172.0.0.1) 10.0.0.2(172.0.0.2) 10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
-AMQ_BROKER_MASTER_NODES = None   # "10.0.0.1(172.0.0.1) 10.0.0.2(172.0.0.2)"
-AMQ_BROKER_SLAVE_NODES = None    # "10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
+AMQ_BROKER_CLUSTER_NODES = "AMQ_BROKER_CLUSTER_NODES"  # "10.0.0.1(172.0.0.1) 10.0.0.2(172.0.0.2) 10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
+AMQ_BROKER_MASTER_NODES = "AMQ_BROKER_MASTER_NODES"    # "10.0.0.1(172.0.0.1) 10.0.0.2(172.0.0.2)"
+AMQ_BROKER_SLAVE_NODES = "AMQ_BROKER_SLAVE_NODES"      # "10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
 
 IP_BOTH_PATTERN = r'(.*)\((.*)\)'
 
@@ -71,11 +71,13 @@ class Inventory():
         self.args = None
         self.inventory = {}
         self.read_cli_args()
-        self.external_ip_mode = os.getenv("EXTERNAL_IP_MODE", False)
+        self.external_ip_mode = os.getenv(EXTERNAL_IP_MODE, False)
 
-        if os.getenv("AMQ_BROKER_MASTER_NODES") is not None or os.getenv("AMQ_BROKER_SLAVE_NODES"):
+        self.check_valid_environment_vars()
+
+        if os.getenv(AMQ_BROKER_MASTER_NODES) is not None or os.getenv(AMQ_BROKER_SLAVE_NODES):
             self.populate_inventory_ha()
-        elif os.getenv("AMQ_BROKER_CLUSTER_NODES"):
+        elif os.getenv(AMQ_BROKER_CLUSTER_NODES):
             self.populate_inventory_cluster()
         else:
             self.inventory = Inventory.empty_inventory()
@@ -92,17 +94,23 @@ class Inventory():
     def __str__(self):
         return str(self.inventory)
 
+    def check_valid_environment_vars(self):
+        if os.getenv(AMQ_BROKER_MASTER_NODES) is not None and os.getenv(AMQ_BROKER_SLAVE_NODES) and \
+                os.getenv(AMQ_BROKER_CLUSTER_NODES) is not None:
+            print "Error, defined too many env variables. Unable to continue"
+            exit(2)
+
     def populate_inventory_single(self):
         self.inventory = AMQ_BROKER_CLUSTER_INVENTORY
 
     def populate_inventory_cluster(self):
         self.inventory = AMQ_BROKER_CLUSTER_INVENTORY
-        self.populate_inventory(os.getenv("AMQ_BROKER_CLUSTER_NODES"), "broker")
+        self.populate_inventory(os.getenv(AMQ_BROKER_CLUSTER_NODES), "broker")
 
     def populate_inventory_ha(self):
         self.inventory = AMQ_BROKER_HA_INVENTORY
-        self.populate_inventory(os.getenv("AMQ_BROKER_MASTER_NODES"), "master")
-        self.populate_inventory(os.getenv("AMQ_BROKER_SLAVE_NODES"), "slave")
+        self.populate_inventory(os.getenv(AMQ_BROKER_MASTER_NODES), "master")
+        self.populate_inventory(os.getenv(AMQ_BROKER_SLAVE_NODES), "slave")
 
     def populate_inventory(self, nodes, node_key):
         for node in nodes.split(" "):
