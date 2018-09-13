@@ -7,7 +7,7 @@
 # AMQ_BROKER_CLUSTER_NODES='external_ip1 external_ip2 external_ipN...'
 # AMQ_BROKER_MASTER_NODES='..defined same as CLUSTER_NODES..' applicable to HA master deployment
 # AMQ_BROKER_SLAVE_NODES='..defined same as CLUSTER_NODES..' applicable to HA slave deployment
-
+import ast
 import os
 import re
 import argparse
@@ -65,13 +65,20 @@ AMQ_BROKER_HA_INVENTORY = \
     }
 
 
+def to_bool(value):
+    if value.lower() in ['true', '1', 't', 'y', 'yes']:
+        return True
+    else:
+        return False
+
+
 class Inventory():
 
     def __init__(self):
         self.args = None
         self.inventory = {}
         self.read_cli_args()
-        self.external_ip_mode = os.getenv(EXTERNAL_IP_MODE, False)
+        self.external_ip_mode = to_bool(os.getenv(EXTERNAL_IP_MODE, False))
 
         self.check_valid_environment_vars()
 
