@@ -12,23 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- src: https://github.com/msgqe/ansible-rhn-register.git
-  scm: git
-  name: rhn-register
-
-- src: https://github.com/msgqe/ansible-rhn-subscribe.git
-  scm: git
-  name: rhn-subscribe
-
-- src: https://github.com/msgqe/ansible-epel.git
-  scm: git
-  name: epel
-
-- src: https://github.com/msgqe/ansible-amq-broker.git
-  scm: git
-  name: ansible-amq-broker
-
-- src: https://github.com/msgqe/ansible-basic-server.git
-  scm: git
-  name: basic-server
-
+---
+- name: Configure brokers using amqcfg
+  hosts: all
+  gather_facts: True
+#  vars_files:
+#    - group_vars/amq_broker_defaults.yml
+  roles:
+     - ansible-amq-configurator
