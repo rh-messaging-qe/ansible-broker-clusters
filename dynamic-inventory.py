@@ -132,8 +132,8 @@ class Inventory():
             if self.external_ip_mode is False:
                 self.inventory.get('_meta').get('hostvars')[external_ip] = {}
             else:
-                self.inventory.get('_meta').get('hostvars')[external_ip] = {'amq_broker_external_address': internal_ip}
-
+                self.inventory.get('_meta').get('hostvars')[external_ip] = {'amq_broker_external_address': external_ip,
+                                                                            'amq_broker_internal_address': internal_ip}
 
     def plain_host_list(self):
         return " ".join(self.inventory.get("_meta").get("hostvars").keys())
