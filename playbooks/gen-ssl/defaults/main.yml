@@ -1,0 +1,38 @@
+---
+ssl_certs_country: "CZ"
+ssl_certs_locality: "Brno"
+ssl_certs_organization: "My awesome organization"
+ssl_certs_organizational_unit: "My unit"
+ssl_certs_common_name: "{{ ansible_fqdn }}"
+ssl_certs_email: "local@localhost.local"
+ssl_certs_days: "365"
+ssl_certs_fields: "/C={{ ssl_certs_country }}/L={{ ssl_certs_locality }}/O={{ ssl_certs_organization }}/OU={{ ssl_certs_organizational_unit }}/CN={{ ssl_certs_common_name }}"
+
+ssl_certs_passphrase: "MySecretPass"
+ssl_certs_ca_path: "{{ playbook_dir }}/certs/rootca"
+ssl_certs_path: "{{ playbook_dir }}/certs/{{ ssl_certs_common_name }}"
+
+ssl_certs_ca_privatekey_path: "{{ ssl_certs_ca_path }}/root-ca.key"
+ssl_certs_ca_csr_path: "{{ ssl_certs_ca_path }}/root-ca.csr"
+ssl_certs_ca_cert_path: "{{ ssl_certs_ca_path }}/root-ca.crt"
+ssl_certs_ca_passphrase: "caPass"
+
+ssl_certs_ca_country: "SK"
+ssl_certs_ca_locality: "Bratislava"
+ssl_certs_ca_organization: "MyCertificationAuthority"
+ssl_certs_ca_organizational_unit: "MyCertificationAuthority Issuer Unit"
+
+ssl_certs_conf_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.conf"
+ssl_certs_path_owner: "buildadm"
+ssl_certs_path_group: "buildadm"
+ssl_certs_privkey_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.key"
+ssl_certs_cert_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.pem"
+ssl_certs_csr_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.csr"
+ssl_certs_combined_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.combined.pem"
+ssl_certs_mode: "0700"
+
+ssl_certs_key_size: "2048"
+
+# Paths to copy files into local directories
+amq_ssl_key_path: "some_path"
+amq_ssl_cert_path: "some_path"
