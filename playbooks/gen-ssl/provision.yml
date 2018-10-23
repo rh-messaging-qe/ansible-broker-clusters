@@ -18,11 +18,11 @@
   tasks:
     - name: Prepare node dependencies
       when: amq_ssl_certs_self_signed is defined and amq_ssl_certs_self_signed == False
-      include_tasks: roles/ansible-ssl-generation/tasks/install-dependencies.yml
+      include_tasks: roles/ansible-ssl-generation/tasks/install_dependencies.yml
 
     - name: Generate local CA
       when: amq_ssl_certs_self_signed is defined and amq_ssl_certs_self_signed == False
-      include_tasks: roles/ansible-ssl-generation/tasks/generate-root-ca.yml
+      include_tasks: roles/ansible-ssl-generation/tasks/generate_root_ca.yml
 
 - name: Generate self-signed SSL keys
   hosts: all
