@@ -16,66 +16,13 @@
 - name: Create CA certificates
   hosts: localhost
   tasks:
-#  - name: Prepare node
-#    include: #roles/ansible-ssl-generation/tasks/main.yml
-    - name: Ensure OpenSSL is installed
-      package: name=openssl state=present
+    - name: Prepare node dependencies
+      when: amq_ssl_certs_self_signed is defined and amq_ssl_certs_self_signed == False
+      include_tasks: roles/ansible-ssl-generation/tasks/install-dependencies.yml
 
-    - name: Ensure pip dependencies are present
-      pip:
-        name: "{{ item }}"
-        state: latest
-        extra_args: --user
-      with_items:
-        - pyopenssl
-        - pexpect
-
-    - name: Ensure ssl folder exist
-      file:
-        path: "{{ ssl_certs_ca_path }}"
-        state: directory
-        owner: "{{ ssl_certs_path_owner }}"
-        group: "{{ ssl_certs_path_group }}"
-        mode: "{{ ssl_certs_mode }}"
-
-    - name: Generate local CA key
-      openssl_privatekey:
-          path: "{{ ssl_certs_ca_privatekey_path }}"
-          passphrase: "{{ ssl_certs_ca_passphrase }}"
-          cipher: des3
-          owner: "{{ ssl_certs_path_owner }}"
-          group: "{{ ssl_certs_path_group }}"
-          force: True
-
-    - name: Generate a Certificate Sign Request
-      openssl_csr:
-        path: "{{ ssl_certs_ca_csr_path }}"
-        owner: "{{ ssl_certs_path_owner }}"
-        group: "{{ ssl_certs_path_group }}"
-        mode: "{{ ssl_certs_mode }}"
-        privatekey_path: "{{ ssl_certs_ca_privatekey_path }}"
-        privatekey_passphrase: "{{ ssl_certs_ca_passphrase }}"
-        country_name: "{{ ssl_certs_ca_country }}"
-        locality_name: "{{ ssl_certs_ca_locality }}"
-        organization_name: "{{ ssl_certs_ca_organization }}"
-        organizational_unit_name: "{{ ssl_certs_ca_organizational_unit }}"
-        common_name: "{{ ssl_certs_common_name }}"
-        email_address: "{{ ssl_certs_email }}"
-
-    - name: Generate a self-signed OpenSSL CA certificate
-      openssl_certificate:
-        path: "{{ ssl_certs_ca_cert_path }}"
-        privatekey_path: "{{ ssl_certs_ca_privatekey_path }}"
-        privatekey_passphrase: "{{ ssl_certs_ca_passphrase }}"
-        csr_path: "{{ ssl_certs_ca_csr_path }}"
-        provider: selfsigned
-        subject:
-          C: "{{ ssl_certs_ca_country }}"
-          L: "{{ ssl_certs_ca_locality }}"
-          O: "{{ ssl_certs_ca_organization }}"
-          OU: "{{ ssl_certs_ca_organizational_unit }}"
-          CN: "{{ ssl_certs_common_name }}"
-        force: yes
+    - name: Generate local CA
+      when: amq_ssl_certs_self_signed is defined and amq_ssl_certs_self_signed == False
+      include_tasks: roles/ansible-ssl-generation/tasks/generate-root-ca.yml
 
 - name: Generate self-signed SSL keys
   hosts: all
