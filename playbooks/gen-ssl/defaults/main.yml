@@ -37,6 +37,7 @@ ssl_certs_ca_organization: "MyCertificationAuthority"
 ssl_certs_ca_organizational_unit: "MyCertificationAuthority Issuer Unit"
 
 # Paths to copy files into local directories
+amq_copy_generated_files: True
 amq_ssl_key_path: "/etc/ssl/{{ ansible_fqdn }}/"
 amq_ssl_cert_path: "/etc/ssl/{{ ansible_fqdn }}/"
 amq_ssl_ca_cert_path: "/etc/ssl/{{ ansible_fqdn }}/"
