@@ -6,42 +6,44 @@ ssl_certs_organization: "My awesome organization"
 ssl_certs_organizational_unit: "My unit"
 ssl_certs_common_name: "{{ ansible_fqdn }}"
 ssl_certs_email: "local@localhost.local"
-ssl_certs_days: "365"
-#ssl_certs_fields: "/C={{ ssl_certs_country }}/L={{ ssl_certs_locality }}/O={{ ssl_certs_organization }}/OU={{ ssl_certs_organizational_unit }}/CN={{ ssl_certs_common_name }}"
-ssl_certs_passphrase: "MySecretPass"
+ssl_certs_days: "365"  # not used yet
 
+# Certificate key, csr, cert and pkcs12 cert
 ssl_certs_path: "{{ playbook_dir }}/certs/{{ ssl_certs_common_name }}"
-ssl_certs_cert_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.pem"
+ssl_certs_privkey_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.key"
+ssl_certs_passphrase: "MySecretPass"
 ssl_certs_csr_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.csr"
-#ssl_certs_conf_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.conf"
+ssl_certs_cert_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.pem"
+ssl_cert_pkcs12_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.p12"
+
 # local-user, unable to use ansible_user due to delegation_to
 ssl_certs_path_owner: "buildadm"
 ssl_certs_path_group: "buildadm"
-ssl_certs_privkey_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.key"
-#ssl_certs_combined_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.combined.pem"
 ssl_certs_mode: "0700"
 ssl_certs_key_size: "2048"
 
-
-# CA variables
+# CA key, csr, cert and pkcs12 cert
 amq_ssl_certs_self_signed: False
 ssl_certs_ca_name: "root-ca.crt"
 ssl_certs_ca_path: "{{ playbook_dir }}/certs/rootca"
 ssl_certs_ca_privatekey_path: "{{ ssl_certs_ca_path }}/root-ca.key"
+ssl_certs_ca_passphrase: "caPass"
 ssl_certs_ca_csr_path: "{{ ssl_certs_ca_path }}/root-ca.csr"
 ssl_certs_ca_cert_path: "{{ ssl_certs_ca_path }}/{{ ssl_certs_ca_name }}"
-ssl_certs_ca_passphrase: "caPass"
 
 ssl_certs_ca_country: "SK"
 ssl_certs_ca_locality: "Bratislava"
 ssl_certs_ca_organization: "MyCertificationAuthority"
 ssl_certs_ca_organizational_unit: "MyCertificationAuthority Issuer Unit"
 
-# Paths to copy files into local directories
+# Paths to copy files into remote directories
 amq_copy_generated_files: True
-amq_ssl_key_path: "/etc/ssl/{{ ansible_fqdn }}/{{ ssl_certs_common_name }}.key"
-amq_ssl_cert_path: "/etc/ssl/{{ ansible_fqdn }}/{{ ssl_certs_common_name }}.pem"
-amq_ssl_ca_cert_path: "/etc/ssl/{{ ansible_fqdn }}/{{ ssl_certs_ca_name }}"
+amq_ssl_dir_path: "/etc/ssl/{{ ansible_fqdn }}"
+amq_ssl_key_path: "{{ amq_ssl_dir_path }}/{{ ssl_certs_common_name }}.key"
+amq_ssl_cert_path: "{{ amq_ssl_dir_path }}/{{ ssl_certs_common_name }}.pem"
+amq_ssl_cert_pkcs12_path: "{{ amq_ssl_dir_path }}/{{ ssl_certs_common_name }}.p12"
+amq_ssl_cert_pkcs12_name_alias: "amq-cert"
+amq_ssl_ca_cert_path: "{{ amq_ssl_dir_path }}/{{ ssl_certs_ca_name }}"
 amq_ssl_certs_path_owner: "jamq"
 amq_ssl_certs_path_group: "jamq"
 
