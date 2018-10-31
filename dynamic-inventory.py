@@ -92,6 +92,8 @@ class Inventory():
             pprint.pprint(self.inventory)
         elif self.args.simple_host:
             print self.plain_host_list()
+        elif self.args.simple_host_internal:
+            print self.plain_host_internal_list()
         else:
             self.inventory = Inventory.empty_inventory()
 
@@ -138,6 +140,12 @@ class Inventory():
     def plain_host_list(self):
         return " ".join(self.inventory.get("_meta").get("hostvars").keys())
 
+    def plain_host_internal_list(self):
+        internal_list = []
+        for key in self.inventory.get("_meta").get("hostvars").keys():
+            internal_list.append(self.inventory.get("_meta").get("hostvars").get(key).get('amq_broker_internal_address'))
+        return " ".join(internal_list)
+
     @staticmethod
     def empty_inventory():
         return {'_meta': {'hostvars': {}}}
@@ -148,6 +156,7 @@ class Inventory():
         parser.add_argument('--host', action='store_true')
         parser.add_argument('--debug', action='store_true')
         parser.add_argument('--simple-host', action='store_true')
+        parser.add_argument('--simple-host-internal', action='store_true')
         self.args = parser.parse_args()
 
 
