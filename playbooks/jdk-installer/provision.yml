@@ -19,18 +19,22 @@
   vars:
     jdk_mapping:
       {
-       jdk11_last: oracle-java-11,
-       jdk10_last: oracle-java-10,
-       jdk1.9.0_last: oracle-java-9,
-       jdk1.8.0_last: oracle-java-8,
-       jdk1.7.0_last: oracle-java-7,
-       openjdk11_last: openjdk-java-11,
-       openjdk-1.10.0: openjdk-java-10,
-       openjdk-1.9.0: openjdk-java-9,
-       openjdk-1.8.0: openjdk-java-8,
-       openjdk-1.7.0: openjdk-java-7,
-       ibm-java-80: ibm-java-8,
-       ibm-java-70: ibm-java-7,
+         jdk11_last: oracle-java-11,
+         jdk10_last: oracle-java-10,
+         jdk1.9.0_last: oracle-java-9,
+         jdk1.8.0_last: oracle-java-8,
+         jdk1.7.0_last: oracle-java-7,
+         openjdk11_last: openjdk-java-11,
+         openjdk-1.10.0: openjdk-java-10,
+         openjdk-1.9.0: openjdk-java-9,
+         openjdk-1.8.0: openjdk-java-8,
+         openjdk-1.7.0: openjdk-java-7,
+         ibm-java-80: ibm-java-8,
+         ibm-java-70: ibm-java-7,
+      }
+    maven_mapping:
+      {
+        maven3-latest: apache-maven-3
       }
   roles:
   - ansible-jdk-installer
