@@ -1,0 +1,2 @@
+- src: git@bitbucket.org:msgqe/ansible-messaging-clients.git
+  scm: git
