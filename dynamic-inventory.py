@@ -70,6 +70,7 @@ def to_bool(value):
 class Inventory():
 
     def __init__(self):
+        self.parser = None
         self.args = None
         self.inventory = {}
         self.read_cli_args()
@@ -84,7 +85,10 @@ class Inventory():
         else:
             self.inventory = Inventory.empty_inventory()
 
-        if self.args.list:
+        if self.args.help:
+            self.help()
+            return
+        elif self.args.list:
             print self.inventory
         elif self.args.host:
             print self.inventory['_meta']
@@ -99,6 +103,18 @@ class Inventory():
 
     def __str__(self):
         return str(self.inventory)
+
+    def help(self):
+        print '''Export one of the following system variables
+AMQ_BROKER_CLUSTER_NODES - single or multiple cluster nodes
+AMQ_BROKER_MASTER_NODES with AMQ_BROKER_SLAVE_NODES (HA deployment)
+EXTERNAL_IP_MODE set to True, if running VM is on Openstack (default: false)
+
+Example:
+export AMQ_BROKER_CLUSTER_NODES="10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
+'''
+
+        print self.parser.print_help()
 
     def check_valid_environment_vars(self):
         if os.getenv(AMQ_BROKER_MASTER_NODES) is not None and os.getenv(AMQ_BROKER_SLAVE_NODES) and \
@@ -151,13 +167,14 @@ class Inventory():
         return {'_meta': {'hostvars': {}}}
 
     def read_cli_args(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument('--list', action='store_true')
-        parser.add_argument('--host', action='store_true')
-        parser.add_argument('--debug', action='store_true')
-        parser.add_argument('--simple-host', action='store_true')
-        parser.add_argument('--simple-host-internal', action='store_true')
-        self.args = parser.parse_args()
+        self.parser = argparse.ArgumentParser(add_help=False)
+        self.parser.add_argument('--list', action='store_true')
+        self.parser.add_argument('--host', action='store_true')
+        self.parser.add_argument('--debug', action='store_true')
+        self.parser.add_argument('--simple-host', action='store_true')
+        self.parser.add_argument('--simple-host-internal', action='store_true')
+        self.parser.add_argument('--help', help='show this help', action="store_true")
+        self.args = self.parser.parse_args()
 
 
 def main():
