@@ -180,3 +180,10 @@ amq_broker_instance_ha_group_name: msgqe-ci  # ideally job name
 amq_broker_instance_ha_vote_on_replication_failure: true
 amq_broker_instance_ha_master_check_for_live_server: true
 amq_broker_instance_ha_slave_allow_failback: true
+
+# Optional amq_broker_gssapi variables
+amq_broker_gssapi_enabled: false
+amq_broker_gssapi_sasl_login_config_scope: msgqekerb
+amq_broker_gssapi_broker_principal: "amqp/{{ ansible_fqdn }}"
+amq_broker_gssapi_broker_keytab_path: "{{ lookup('env','AMQ_GSSAPI_KEYTABS_PATH') | default('<broker-keytab-path-here>', true) }}"
+amq_broker_gssapi_conf_file_path: "{{ lookup('env','AMQ_GSSAPI_KRB_CONF_PATH') | default('<broker-krb5conf-path-here>', true) }}"
