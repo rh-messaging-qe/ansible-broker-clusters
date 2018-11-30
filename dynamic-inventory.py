@@ -170,7 +170,9 @@ export AMQ_BROKER_CLUSTER_NODES="10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
     def plain_host_internal_list(self):
         internal_list = []
         for key in self.inventory.get("_meta").get("hostvars").keys():
-            internal_list.append(self.inventory.get("_meta").get("hostvars").get(key).get('amq_broker_internal_address'))
+            address = self.inventory.get("_meta").get("hostvars").get(key).get('amq_broker_internal_address')
+            if address is not None:
+                internal_list.append(address)
         return " ".join(internal_list)
 
     @staticmethod
