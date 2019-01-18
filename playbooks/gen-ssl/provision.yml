@@ -29,7 +29,3 @@
   gather_facts: True
   roles:
     - ansible-ssl-generation
-
-
-
-

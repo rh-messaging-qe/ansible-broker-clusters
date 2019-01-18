@@ -16,10 +16,7 @@ ssl_certs_csr_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.csr"
 ssl_certs_cert_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.pem"
 ssl_cert_pkcs12_path: "{{ ssl_certs_path }}/{{ ssl_certs_common_name }}.p12"
 
-# local-user, unable to use ansible_user due to delegation_to
-ssl_certs_path_owner: "buildadm"
-ssl_certs_path_group: "buildadm"
-ssl_certs_mode: "0700"
+ssl_certs_mode: "0600"
 ssl_certs_key_size: "2048"
 
 # CA key, csr, cert and pkcs12 cert
