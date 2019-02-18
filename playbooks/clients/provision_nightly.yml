@@ -18,6 +18,6 @@
   gather_facts: True
   vars:
     amq_clients_errata_id: false
-    amq_clients_nightly: false
+    amq_clients_nightly: true
   roles:
   - ansible-messaging-clients
