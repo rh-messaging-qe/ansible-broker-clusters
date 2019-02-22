@@ -1,0 +1,48 @@
+# Copyright 2017 Red Hat, Inc. and/or its affiliates
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+
+# Repository options
+amq_clients_nightly: true
+amq_clients_errata_id: false
+
+# Ansible Messaging Clients options
+client_cli_qpid_cpp: true
+client_cli_proton_cpp: true
+client_cli_proton_ruby: true
+client_cli_proton_python: true
+client_cli_rhea: true
+client_cli_rhea_version: "0.3.1"
+
+client_cli_netlite_core: true
+client_cli_netlite_core_version: "2.2.0"
+
+client_cli_proton_java: true
+client_cli_proton_java_version: "1.2.2-SNAPSHOT-0.37.0.redhat-00001"
+
+client_cli_artemis_java: true
+client_cli_artemis_java_version: "1.2.2-SNAPSHOT-2.6.3.redhat-00004"
+
+client_cli_activemq_java: true
+client_cli_activemq_java_version: "1.2.2-SNAPSHOT-5.11.0.redhat-630329"
+
+client_amqx_java: true
+client_amqx_java_version: "2.6.3.redhat-00004"
+
+# internal non-messaging clients
+client_dballocator_java: true
+client_dballocator_java_version: ""
+
+amq_clients_dtests_default_dir: "/var/dtests/node_data/clients"
+#amq_clients_version_file: "/opt"  # Clients version file or clients_dir
