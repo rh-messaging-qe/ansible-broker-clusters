@@ -13,14 +13,21 @@
 # limitations under the License.
 ---
 
-# Repository options
-amq_clients_nightly: false
-amq_clients_errata_id: false
+- name: Install clients
+  hosts: all
+  gather_facts: True
+  vars:
+    # Repository options
+    amq_clients_errata_id: false
+    amq_clients_nightly: false
 
-# unlisted client versions are installed from provided repositories
-client_cli_rhea_version: "0.3.9"
-client_cli_netlite_core_version: "2.3.0"
-client_cli_proton_java_version: "1.2.2-SNAPSHOT-0.40.0.redhat_00001"
-client_cli_artemis_java_version: "1.2.2-SNAPSHOT-2.6.3.redhat-00017"
-client_cli_activemq_java_version: "1.2.2-SNAPSHOT-5.11.0.redhat-630377"
-client_amqx_java_version: "2.6.3.redhat-00004"
+    # unlisted client versions are installed from provided repositories
+    client_cli_rhea_version: "0.3.9"
+    client_cli_netlite_core_version: "2.3.0"
+    client_cli_proton_java_version: "1.2.2-SNAPSHOT-0.40.0.redhat-00001"
+    client_cli_artemis_java_version: "1.2.2-SNAPSHOT-2.6.3.redhat-00017"
+    client_cli_activemq_java_version: "1.2.2-SNAPSHOT-5.11.0.redhat-630377"
+    client_amqx_java_version: "2.6.3.redhat-00004"
+
+  roles:
+    - ansible-messaging-clients

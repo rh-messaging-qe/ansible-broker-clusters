@@ -13,36 +13,22 @@
 # limitations under the License.
 ---
 
-# Repository options
-amq_clients_nightly: true
-amq_clients_errata_id: false
+- name: Install clients
+  hosts: all
+  gather_facts: True
+  vars:
+    # Repository options
+    amq_clients_errata_id: false
+    amq_clients_nightly: false
 
-# Ansible Messaging Clients options
-client_cli_qpid_cpp: true
-client_cli_proton_cpp: true
-client_cli_proton_ruby: true
-client_cli_proton_python: true
-client_cli_rhea: true
-client_cli_rhea_version: "0.3.1"
+    # unlisted client versions are installed from provided repositories
+    client_cli_rhea_version: "0.3.1"
+    client_cli_netlite_core_version: "2.2.0"
+    client_cli_proton_java_version: "1.2.2-SNAPSHOT-0.37.0.redhat-00001"
+    client_cli_artemis_java_version: "1.2.2-SNAPSHOT-2.6.3.redhat-00004"
+    client_cli_activemq_java_version: "1.2.2-SNAPSHOT-5.11.0.redhat-630329"
+    client_amqx_java_version: "2.6.3.redhat-00004"
 
-client_cli_netlite_core: true
-client_cli_netlite_core_version: "2.2.0"
+  roles:
+  - ansible-messaging-clients
 
-client_cli_proton_java: true
-client_cli_proton_java_version: "1.2.2-SNAPSHOT-0.37.0.redhat-00001"
-
-client_cli_artemis_java: true
-client_cli_artemis_java_version: "1.2.2-SNAPSHOT-2.6.3.redhat-00004"
-
-client_cli_activemq_java: true
-client_cli_activemq_java_version: "1.2.2-SNAPSHOT-5.11.0.redhat-630329"
-
-client_amqx_java: true
-client_amqx_java_version: "2.6.3.redhat-00004"
-
-# internal non-messaging clients
-client_dballocator_java: true
-client_dballocator_java_version: ""
-
-amq_clients_dtests_default_dir: "/var/dtests/node_data/clients"
-#amq_clients_version_file: "/opt"  # Clients version file or clients_dir
