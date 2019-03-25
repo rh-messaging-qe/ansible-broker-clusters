@@ -17,5 +17,6 @@
   hosts: broker
   vars_files:
     - group_vars/amq_broker_defaults.yml
+    - group_vars/amq_broker_service_opts.yml
   roles:
      - ansible-amq-broker
