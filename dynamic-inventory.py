@@ -90,15 +90,15 @@ class Inventory():
             self.inventory = Inventory.empty_inventory()
 
         if self.args.list:
-            print self.inventory
+            print(self.inventory)
         elif self.args.host:
-            print self.inventory['_meta']
+            print(self.inventory['_meta'])
         elif self.args.debug:
             pprint.pprint(self.inventory)
         elif self.args.simple_host:
-            print self.plain_host_list()
+            print(self.plain_host_list())
         elif self.args.simple_host_internal:
-            print self.plain_host_internal_list()
+            print(self.plain_host_internal_list())
         else:
             self.inventory = Inventory.empty_inventory()
 
@@ -106,21 +106,21 @@ class Inventory():
         return str(self.inventory)
 
     def help(self):
-        print '''Export one of the following system variables
+        print('''Export one of the following system variables
 AMQ_BROKER_CLUSTER_NODES - single or multiple cluster nodes
 AMQ_BROKER_MASTER_NODES with AMQ_BROKER_SLAVE_NODES (HA deployment)
 EXTERNAL_IP_MODE set to True, if running VM is on Openstack (default: false)
 
 Example:
 export AMQ_BROKER_CLUSTER_NODES="10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
-'''
+''')
 
-        print self.parser.print_help()
+        print(self.parser.print_help())
 
     def check_valid_environment_vars(self):
         if os.getenv(AMQ_BROKER_MASTER_NODES) is not None and os.getenv(AMQ_BROKER_SLAVE_NODES) and \
                 os.getenv(AMQ_BROKER_CLUSTER_NODES) is not None:
-            print "Error, defined too many 'AMQ_BROKER_*' env variables. Unable to continue. Unset some of them."
+            print("Error, defined too many 'AMQ_BROKER_*' env variables. Unable to continue. Unset some of them.")
             exit(2)
 
     def populate_inventory_single(self):
@@ -138,12 +138,12 @@ export AMQ_BROKER_CLUSTER_NODES="10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
         if masters is not None:
             self.populate_inventory(masters, "master")
         else:
-            print "Warning: missing 'AMQ_BROKER_MASTER_NODES' for HA deployment!"
+            print("Warning: missing 'AMQ_BROKER_MASTER_NODES' for HA deployment!")
 
         if slaves is not None:
             self.populate_inventory(slaves, "slave")
         else:
-            print "Warning: missing 'AMQ_BROKER_SLAVES_NODES' for HA deployment!"
+            print("Warning: missing 'AMQ_BROKER_SLAVES_NODES' for HA deployment!")
 
     def populate_inventory(self, nodes, node_key):
         for node in nodes.split(" "):
