@@ -1,0 +1,4 @@
+- name: ansible-amq-configurator
+  scm: git
+  src: git@github.com/msgqe/ansible-amq-configurator
+  version: master
