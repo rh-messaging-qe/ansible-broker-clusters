@@ -17,7 +17,7 @@
   hosts: all
   gather_facts: True
   vars:
-    amq_clients_errata_id: false
+    amq_clients_errata_id:
     amq_clients_nightly: true
     client_cli_proton_python: false
     client_cli_rhea: false

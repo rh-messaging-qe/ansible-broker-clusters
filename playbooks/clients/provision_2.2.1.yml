@@ -18,7 +18,7 @@
   gather_facts: True
   vars:
     # Repository options
-    amq_clients_errata_id: false
+    amq_clients_errata_id:
     amq_clients_nightly: false
 
     # unlisted client versions are installed from provided repositories
