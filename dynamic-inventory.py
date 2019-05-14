@@ -13,12 +13,20 @@ import argparse
 import pprint
 
 EXTERNAL_IP_MODE = "EXTERNAL_IP_MODE"
+WINDOWS_HOSTS = "WINDOWS_HOSTS"
 AMQ_BROKER_SINGLE_NODE = None
 AMQ_BROKER_CLUSTER_NODES = "AMQ_BROKER_CLUSTER_NODES"  # "10.0.0.1(172.0.0.1) 10.0.0.2(172.0.0.2) 10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
 AMQ_BROKER_MASTER_NODES = "AMQ_BROKER_MASTER_NODES"    # "10.0.0.1(172.0.0.1) 10.0.0.2(172.0.0.2)"
 AMQ_BROKER_SLAVE_NODES = "AMQ_BROKER_SLAVE_NODES"      # "10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
 
 IP_BOTH_PATTERN = r'(.*)\((.*)\)'
+
+
+WINDOWS_VARS={'ansible_user': '<admin-user>',
+              'ansible_password': '<password>',
+              'ansible_port': '5986',
+              'ansible_connection': 'winrm',
+              'ansible_winrm_server_cert_validation': 'ignore'}
 
 # AMQ_BROKER_CLUSTER_INVENTORY || AMQ_BROKER_SINGLE_NODE
 # [broker]
@@ -80,6 +88,7 @@ class Inventory():
             return
 
         self.external_ip_mode = to_bool(os.getenv(EXTERNAL_IP_MODE, None))
+        self.windows_hosts = to_bool(os.getenv(WINDOWS_HOSTS, None))
         self.check_valid_environment_vars()
 
         if os.getenv(AMQ_BROKER_MASTER_NODES) is not None or os.getenv(AMQ_BROKER_SLAVE_NODES):
@@ -157,6 +166,10 @@ export AMQ_BROKER_CLUSTER_NODES="10.0.0.3(172.0.0.3) 10.0.0.4(172.0.0.4)"
 
             self.inventory.get(node_key).get('hosts').append(external_ip)
             self.inventory.get(node_key).get('vars')['ansible_user'] = 'root'
+
+            if self.windows_hosts:
+                for win_key in WINDOWS_VARS:
+                    self.inventory.get(node_key).get('vars')[win_key] = WINDOWS_VARS[win_key]
 
             if self.external_ip_mode is False:
                 self.inventory.get('_meta').get('hostvars')[external_ip] = {}
