@@ -1,0 +1,160 @@
+# Copyright 2017 Red Hat, Inc. and/or its affiliates
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Whether to skip setting firewall for broker
+amq_broker_skip_iptables: true
+# Whether to perform tear down actions (close ports, clean environment)
+amq_broker_perform_teardown: false
+
+# defaults file for amq-broker
+# Whether to skip install
+amq_broker_skip_install: false
+
+# Whether to skip creating an instance
+amq_broker_skip_create: false
+
+# Whether to skip configuration step for a broker
+amq_broker_skip_configure: true
+
+# Whether to dump system facts to a file. To be used when integrated with
+# test automation tools that may need to inspect deployment details
+amq_broker_write_amq_facts: true
+
+# Path to locally generated facts about amq broker [/etc/ansible/facts.d/]
+amq_broker_default_facts_file: "{{ lookup('env','AMQ_BROKER_FACTS_NODE_DIR') | default('/tmp/facts/', true) }}/amq_broker_facts_{{ amq_broker_external_address | default(ansible_ip_addresses | ipv4('address') | first) }}"
+amq_broker_node_info_file: "{{ lookup('env','AMQ_BROKER_FACTS_NODE_DIR') | default('/tmp/facts', true) }}/node_information_{{ amq_broker_external_address | default(ansible_ip_addresses | ipv4('address') | first) }}"
+amq_broker_local_facts_dir: "{{ lookup('env','AMQ_BROKER_FACTS_DIR') | default(inventory_dir, true) }}"
+# Whether to start broker as a service
+amq_broker_start_server: false
+amq_broker_service_start: false
+amq_broker_force_kill: true
+amq_broker_kill_all: true
+
+# The system user used to run the broker instance
+amq_broker_default_user: jamq
+
+# The system user uid to use when user is creating
+amq_broker_user_uid: 5672
+
+amq_broker_download_url: "{{ lookup('env','AMQ_BROKER_DOWNLOAD_URL') | default('https://archive.apache.org/dist/activemq/activemq-artemis/2.6.2/apache-artemis-2.6.2-bin.zip', true) }}"
+amq_broker_download_dest: /tmp
+amq_broker_install_dest: "C:/opt/{{ amq_broker_user | default(amq_broker_default_user) }}"
+amq_broker_default_install_link: jboss-amq-7
+amq_broker_custom_install_link: "C:/opt/jboss-amq-7"
+amq_broker_validate_certs: no
+
+# Download DB driver URL if environment variable is set
+amq_broker_db_driver_url: "{{ lookup('env','AMQ_BROKER_DB_DRIVER_DOWNLOAD_URL') | default(None) }}"
+
+# Shared store location on given node
+amq_broker_shared_store_dir: "{{ lookup('env','AMQ_SHARED_DIRECTORY') | default(None) }}"
+
+# Whether to install Java JVM and which one to install
+amq_broker_jvm_manage: "{% if lookup('env','JAVA_TYPE') == '' %}{{ (false | bool) }}{% else %}{{ (true | bool) }}{% endif %}"
+amq_broker_jvm_install: false
+amq_broker_jvm: "{{ lookup('env','JAVA_TYPE') | default('openjdk-java-8', true) }}"
+
+# Journal type for the broker instance
+amq_broker_instance_journal_type: aio
+amq_broker_instance_journal_nio_fsync: false
+amq_broker_instance_journal_type_args: "{% if amq_broker_instance_journal_type == 'nio' or amq_broker_instance_journal_type == 'aio' %} --{{ amq_broker_instance_journal_type }} {% elif amq_broker_instance_journal_type == 'disabled' %} --disable-persistence {% endif %} {% if amq_broker_instance_journal_nio_fsync == true %} --no-fsync {% endif %}"
+amq_broker_instance_dir: ci-artemis
+amq_broker_instance_name: amq-{{ ansible_ip_addresses | ipv4('address') | first | regex_replace('\.', '-')}}
+amq_broker_instance_role: amq
+amq_broker_instance_user: admin
+amq_broker_instance_password: admin
+
+# This variable defaults to undefined
+# amq_broker_instance_broker_host:
+amq_broker_instance_web_host: 0.0.0.0
+amq_broker_instance_rmi_host: "{{ ansible_nodename }}"
+
+amq_broker_default_port: 61616
+amq_broker_default_amqp: 5672
+amq_broker_default_stomp: 61613
+amq_broker_default_mqtt: 1883
+amq_broker_default_core: 5445
+amq_broker_default_admin_port: 8161
+amq_broker_default_cluster_port: 9876
+amq_broker_default_cluster_netty_connector_port: 61617
+
+# Jolokia stuff
+amq_broker_jolokia_allow_origin: "*"
+
+amq_broker_instance_type: default
+#
+#amq_broker_cluster_broadcast_group_name: my-broadcast-group
+amq_broker_cluster_group_address: "{{ lookup('env','AMQ_BROKER_CLUSTER_MCAST_ADDR') | default('231.7.7.7', true) }}"
+#amq_broker_cluster_broadcast_group_port: "{{ amq_broker_default_cluster_port }}"
+#amq_broker_cluster_netty_connector_port: "{{ amq_broker_default_cluster_netty_connector_port }}"
+#amq_broker_cluster_broadcast_period: 2000
+#amq_broker_cluster_balancing: ON_DEMAND
+#amq_broker_cluster_max_hops: 1
+#
+#amq_broker_cluster_discovery_group_name: my-discovery-group
+#amq_broker_cluster_name: my-cluster
+#
+#amq_broker_cluster_username: ACTIVEMQ.CLUSTER.ADMIN.USER
+#amq_broker_cluster_password: redhat
+
+
+# ================
+basic_server_skip_rhn_registration: true
+amq_broker_install_link: jboss-amq-7
+amq_broker_broker_java_install: false
+broker_home_instance: "{{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}"
+broker_xml: "{{ broker_home_instance }}/etc/broker.xml"
+xml_configuration_ns: "urn:activemq"
+xml_core_ns: "urn:activemq:core"
+
+
+
+# Variables used for building the command like to create the instance
+amq_broker_instance_create_force: true
+amq_broker_instance_create_force_args: "{{ amq_broker_instance_create_force | ternary('--force','') }}"
+
+amq_broker_instance_require_login: false
+amq_broker_instance_require_login_args: "{{ amq_broker_instance_require_login | ternary('--require-login','--allow-anonymous') }}"
+
+amq_broker_instance_create_options: "{{ amq_broker_instance_create_force_args }} {{ amq_broker_instance_require_login_args }} --password={{ amq_broker_instance_password }} --role={{ amq_broker_instance_role }} --user={{ amq_broker_instance_user }} --http-host {{ amq_broker_instance_web_host }} "
+amq_broker_instance_jmx_port: 1099
+amq_broker_instance_create_queue_args: "{% if amq_broker_instance_queues is defined %} --queues {{ amq_broker_instance_queues | join(',') }} {% else %} '' {% endif %}"
+
+amq_broker_instance_clustered: false
+amq_broker_instance_clustered_args: "{{ amq_broker_instance_clustered | ternary('--clustered','--allow-anonymous') }}"
+
+amq_broker_instance_clustered_user_args: "{% if amq_broker_instance_clustered == true %} --cluster-user {{ amq_broker_cluster_username }} {% else %} '' {% endif %}"
+amq_broker_instance_clustered_password_args: "{% if amq_broker_instance_clustered == true %} --cluster-password {{ amq_broker_cluster_password }} {% else %} '' {% endif %}"
+amq_broker_instance_clustered_host_args: "{% if amq_broker_instance_clustered == true %} --host {{ amq_broker_instance_broker_host | default(ansible_ip_addresses | ipv4('address')) }} {% else %} '' {% endif %}"
+amq_broker_instance_clustered_balancing_args: "{% if amq_broker_instance_clustered == true %} --message-load-balancing {{ amq_broker_cluster_balancing }} {% else %} '' {% endif %}"
+amq_broker_instance_clustered_maxhops_args: "{% if amq_broker_instance_clustered == true %} --max-hops {{ amq_broker_cluster_max_hops }} {% else %} '' {% endif %}"
+
+amq_broker_cluster_replicated: false
+amq_broker_cluster_sharedstore: false
+amq_broker_instance_clustered_replicated_args: "{% if amq_broker_cluster_replicated == true %} --replicated {% else %} '' {% endif %}"
+amq_broker_instance_clustered_sharedstore_args: "{% if amq_broker_cluster_sharedstore == true %} --shared-store {% else %} '' {% endif %}"
+
+amq_broker_instance_create_java_options: "-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port={{ amq_broker_instance_jmx_port }} -Djava.rmi.server.hostname={{ amq_broker_instance_rmi_host }} -Dcom.sun.management.jmxremote.rmi.port={{ amq_broker_instance_jmx_port }} -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+amq_broker_instance_create_command: artemis.cmd create {{ amq_broker_instance_create_options }} {{ amq_broker_instance_journal_type_args }} --java-options="{{ amq_broker_instance_create_java_options }}" --name={{ amq_broker_instance_name }} {{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}
+amq_broker_instance_create_service: "{{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}/bin/artemis-service.exe install"
+amq_broker_instance_service_start: "{{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}/bin/artemis-service.exe start"
+
+amq_broker_instance_ha: false
+
+# Optional amq_broker_gssapi variables
+amq_broker_gssapi_enabled: false
+amq_broker_gssapi_sasl_login_config_scope: msgqekerb
+amq_broker_gssapi_broker_principal: "amqp/{{ ansible_fqdn }}"
+amq_broker_gssapi_broker_keytab_path: "{{ lookup('env','AMQ_GSSAPI_KEYTABS_PATH') | default('<broker-keytab-path-here>', true) }}"
+amq_broker_gssapi_conf_file_path: "{{ lookup('env','AMQ_GSSAPI_KRB_CONF_PATH') | default('<broker-krb5conf-path-here>', true) }}"
