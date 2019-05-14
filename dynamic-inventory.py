@@ -22,8 +22,8 @@ AMQ_BROKER_SLAVE_NODES = "AMQ_BROKER_SLAVE_NODES"      # "10.0.0.3(172.0.0.3) 10
 IP_BOTH_PATTERN = r'(.*)\((.*)\)'
 
 
-WINDOWS_VARS={'ansible_user': '<admin-user>',
-              'ansible_password': '<password>',
+WINDOWS_VARS={'ansible_user': os.getenv('AMQ_BROKER_WIN_USERNAME', 'admin'),
+              'ansible_password': os.getenv('AMQ_BROKER_WIN_PASSWORD', 'admin'),
               'ansible_port': '5986',
               'ansible_connection': 'winrm',
               'ansible_winrm_server_cert_validation': 'ignore'}
