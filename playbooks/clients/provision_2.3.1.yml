@@ -37,7 +37,7 @@
     client_cli_proton_java_version: "1.2.2-SNAPSHOT-0.40.0.redhat-00001"
 
     client_cli_artemis_java: true
-    client_cli_artemis_java_version: "1.2.2-SNAPSHOT-2.7.0.redhat-00055"
+    client_cli_artemis_java_version: "1.2.2-SNAPSHOT-2.7.0.redhat-00056"
 
     client_cli_activemq_java: true
     client_cli_activemq_java_version: "1.2.2-SNAPSHOT-5.11.0.redhat-630377"
