@@ -31,9 +31,11 @@ amq_broker_skip_configure: true
 # test automation tools that may need to inspect deployment details
 amq_broker_write_amq_facts: true
 
+amq_broker_default_ipv4_address: "{{ amq_broker_external_address | default(ansible_ip_addresses | ipv4('address') | first) }}"
+
 # Path to locally generated facts about amq broker [/etc/ansible/facts.d/]
-amq_broker_default_facts_file: "{{ lookup('env','AMQ_BROKER_FACTS_NODE_DIR') | default('/tmp/facts/', true) }}/amq_broker_facts_{{ amq_broker_external_address | default(ansible_ip_addresses | ipv4('address') | first) }}"
-amq_broker_node_info_file: "{{ lookup('env','AMQ_BROKER_FACTS_NODE_DIR') | default('/tmp/facts', true) }}/node_information_{{ amq_broker_external_address | default(ansible_ip_addresses | ipv4('address') | first) }}"
+amq_broker_default_facts_file: "{{ lookup('env','AMQ_BROKER_FACTS_NODE_DIR') | default('/tmp/facts/', true) }}/amq_broker_facts_{{ amq_broker_default_ipv4_address }}"
+amq_broker_node_info_file: "{{ lookup('env','AMQ_BROKER_FACTS_NODE_DIR') | default('/tmp/facts', true) }}/node_information_{{ amq_broker_default_ipv4_address }}"
 amq_broker_local_facts_dir: "{{ lookup('env','AMQ_BROKER_FACTS_DIR') | default(inventory_dir, true) }}"
 # Whether to start broker as a service
 amq_broker_start_server: false
@@ -70,7 +72,7 @@ amq_broker_instance_journal_type: aio
 amq_broker_instance_journal_nio_fsync: false
 amq_broker_instance_journal_type_args: "{% if amq_broker_instance_journal_type == 'nio' or amq_broker_instance_journal_type == 'aio' %} --{{ amq_broker_instance_journal_type }} {% elif amq_broker_instance_journal_type == 'disabled' %} --disable-persistence {% endif %} {% if amq_broker_instance_journal_nio_fsync == true %} --no-fsync {% endif %}"
 amq_broker_instance_dir: ci-artemis
-amq_broker_instance_name: amq-{{ ansible_ip_addresses | ipv4('address') | first | regex_replace('\.', '-')}}
+amq_broker_instance_name: amq-{{ amq_broker_default_ipv4_address | regex_replace('\.', '-')}}
 amq_broker_instance_role: amq
 amq_broker_instance_user: admin
 amq_broker_instance_password: admin
@@ -148,7 +150,10 @@ amq_broker_instance_clustered_sharedstore_args: "{% if amq_broker_cluster_shared
 amq_broker_instance_create_java_options: "-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port={{ amq_broker_instance_jmx_port }} -Djava.rmi.server.hostname={{ amq_broker_instance_rmi_host }} -Dcom.sun.management.jmxremote.rmi.port={{ amq_broker_instance_jmx_port }} -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 amq_broker_instance_create_command: artemis.cmd create {{ amq_broker_instance_create_options }} {{ amq_broker_instance_journal_type_args }} --java-options="{{ amq_broker_instance_create_java_options }}" --name={{ amq_broker_instance_name }} {{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}
 amq_broker_instance_create_service: "{{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}/bin/artemis-service.exe install"
+amq_broker_instance_remove_service: "{{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}/bin/artemis-service.exe uninstall"
 amq_broker_instance_service_start: "{{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}/bin/artemis-service.exe start"
+amq_broker_instance_service_stop: "{{ amq_broker_install_dest }}/{{ amq_broker_instance_dir }}/bin/artemis-service.exe stop"
+
 
 amq_broker_instance_ha: false
 
