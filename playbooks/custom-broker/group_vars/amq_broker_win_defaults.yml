@@ -51,7 +51,7 @@ amq_broker_user_uid: 5672
 
 amq_broker_download_url: "{{ lookup('env','AMQ_BROKER_DOWNLOAD_URL') | default('https://archive.apache.org/dist/activemq/activemq-artemis/2.6.2/apache-artemis-2.6.2-bin.zip', true) }}"
 amq_broker_download_dest: "C:/opt/"
-amq_broker_install_dest: "C:/opt/{{ amq_broker_user | default(amq_broker_default_user) }}/"
+amq_broker_install_dest: "C:/opt/{{ amq_broker_user | default(amq_broker_default_user) }}"
 amq_broker_default_install_link: jboss-amq-7
 amq_broker_custom_install_link: "C:/opt/jboss-amq-7"
 amq_broker_validate_certs: no
