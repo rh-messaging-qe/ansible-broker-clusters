@@ -2,9 +2,9 @@
 - name: ansible-amq-broker
   scm: git
   src: https://github.com/msgqe/ansible-amq-broker.git
-  version: mt_win_support
+  version: master
 
 - name: ansible-service-creator
   scm: git
   src: git+https://github.com/rh-messaging-qe/ansible-service-creator.git
-  version: mt_win_support
+  version: master
