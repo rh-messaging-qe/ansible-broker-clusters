@@ -33,16 +33,16 @@
     client_cli_rhea_version: "1.0.7"
 
     client_cli_netlite_core: true
-    client_cli_netlite_core_version: "2.4.0"
+    client_cli_netlite_core_version: "2.4.1"
 
     client_cli_proton_java: true
-    client_cli_proton_java_version: "1.2.2-SNAPSHOT-0.42.0.redhat-00001"
+    client_cli_proton_java_version: "1.2.2-SNAPSHOT-0.42.0.redhat-00002"
 
     client_cli_artemis_java: true
     client_cli_artemis_java_version: "1.2.2-SNAPSHOT-2.7.0.redhat-00056"
 
     client_cli_activemq_java: true
-    client_cli_activemq_java_version: "1.2.2-SNAPSHOT-5.11.0.redhat-630377"
+    client_cli_activemq_java_version: "1.2.2-SNAPSHOT-5.11.0.redhat-630396"
 
     client_amqx_java: true
     client_amqx_java_version: "2.6.3.redhat-00004"
